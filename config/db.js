@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const MONGOURI = "mongodb+srv://shivam910:india1121025@cluster0.iwli40u.mongodb.net/test"
+const MONGOURI = "mongodb+srv://shivam910:*********@cluster0.iwli40u.mongodb.net/test"
 
 const InitiateMongoServer = async() => {
     try {
