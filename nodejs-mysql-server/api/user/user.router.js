@@ -1,11 +1,26 @@
-const { application } = require("express");
-const {createUser,getUser,getUserbyUserId,deleteUser,updateUser } = require("./user.controller")
+const {
+  createUser,
+  getUser,
+  getUserbyUserId,
+  deleteUser,
+  updateUser,
+  login
+} = require("./user.controller");
 const router = require("express").Router();
+const { checkToken } = require("../../auth/token-validation");
 
-router.post("/",(createUser));
-router.get("/",(getUser));
-router.get("/:id",getUserbyUserId);
-router.patch("/", updateUser)
-router.delete("/",deleteUser)
+// User Routers
+router.post("/", checkToken, createUser);
+router.get("/", checkToken, getUser);
+router.get("/:id", checkToken, getUserbyUserId);
+router.patch("/", checkToken, updateUser);
+router.delete("/", checkToken, deleteUser);
+router.post("/login",login);
 
-module.exports = router;  
+// // Resource Routers
+// router.post("/", createResources);
+// router.get("/",getResources);
+// router.get("/:id",getResourcesById);
+// router.patch("/",updateResources);
+
+module.exports = router;

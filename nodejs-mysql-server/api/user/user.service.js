@@ -77,5 +77,123 @@ module.exports = {
                 return callback(null,results);
             }
         );
+    },
+
+    // Login
+    getUserbyUserEmail : (email,callback) =>{
+        pool.query(
+            `select * from registration where email = ?`,
+            [email],
+            (error,results,fields) => {
+                if(error){
+                    callback(error);
+                }
+                return callback(null,results[0]);
+            }
+        )
+    },
+
+    // Resources
+    createResources: (data,callback) => {
+        pool.query(
+            `insert into resources(resourcename,status)
+            values(?,?)`,
+            [
+                data.resourcename,
+                data.status
+            ],
+            (error,results,fields) => {
+                if(error) {
+                    return callback(error);
+                }
+                return callback(null,results);
+            }
+          );
+    },
+    getResources: (callback) => {
+        pool.query(
+            `select id,resourcename,status from resources`,
+            [],
+            (error,results,fields) => {
+                if(error) {
+                    return callback(error);
+                }
+                return callback(null,results);
+            }
+        )
+    },
+    getResourcesById: (id, callback) => {
+        pool.query(
+            `select id,resourcename,status from resources where id = ?`,
+            [id],
+            (errors,results,fields) => {
+                if(errors){
+                    return callback(errors);
+                }
+                return callback(null,results[0]);
+            }
+        );
+    },
+    updateResources:(data,callback) => {
+        pool.query(
+            `update resources set resourcename = ?,status =?  where id = ?`,
+            [
+                data.firstname,
+                data.status,
+                data.id
+            ],
+            (error,results,fields) => {
+                if(error){
+                    return callback(error)
+                }
+                return callback(null,results);
+            }
+        );
+    },
+
+    // Resource occupancy
+    createOccupancy:(data,callback) => {
+        pool.query(
+            `
+            INSERT INTO occupancy (oDate, uid)
+            SELECT * FROM (SELECT '2023-07-21',02259) AS tmp
+            WHERE NOT EXISTS (
+                SELECT oDate,uid FROM occupancy WHERE oDate = '2023-07-21' and uid = 0221
+            ) LIMIT 1;
+            `,
+            [
+                data.oDate,
+                data.uid
+            ],
+            (error,results,fields) => {
+                if(error) {
+                    return callback(error);
+                }
+                return callback(null,results);
+            }
+        );
+    },
+    getOcuupancy: (callback) =>{
+        pool.query(
+            `select * from occupancy`,
+            [],
+            (error,results,fields) => {
+                if(error) {
+                    return callback(error);
+                }
+                return callback(null,results);
+            }
+        )
+    },
+    deleteOccupancy : (data,callback) => {
+        pool.query(
+            `delete from occupancy where id = ?`,
+            [data.id],
+            (error,results,fields) => {
+                if(error) 
+                    return callback(error);
+                return callback(null,results);
+            }
+        );
     }
-};
+ };
