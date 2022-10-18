@@ -6,7 +6,6 @@ module.exports = {
             `insert into registration(firstname,lastname,contact,email,password,isadmin)
             values(?,?,?,?,?,?)`,
             [
-    
                 data.firstname,
                 data.lastname,
                 data.contact,
@@ -155,15 +154,13 @@ module.exports = {
     createOccupancy:(data,callback) => {
         pool.query(
             `
-            INSERT INTO occupancy (oDate, uid)
-            SELECT * FROM (SELECT '2023-07-21',02259) AS tmp
-            WHERE NOT EXISTS (
-                SELECT oDate,uid FROM occupancy WHERE oDate = '2023-07-21' and uid = 0221
-            ) LIMIT 1;
+            insert into occupancy(occupancyDate,resourceId,userId,isAvailable)
+                values(?,?,?,false)
             `,
             [
-                data.oDate,
-                data.uid
+                data.occupancyDate,
+                data.resourceId,
+                data.userId
             ],
             (error,results,fields) => {
                 if(error) {
