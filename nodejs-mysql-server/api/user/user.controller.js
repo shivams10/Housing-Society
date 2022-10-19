@@ -15,7 +15,8 @@ const {
 } = require("../user/user.service"); 
 
 const { genSaltSync, hashSync, compareSync } = require("bcrypt");
-const { sign } = require("jsonwebtoken")
+const { sign } = require("jsonwebtoken");
+const pool = require("../../config/database");
 
 module.exports = {
 
@@ -128,6 +129,15 @@ module.exports = {
             const jsontoken =sign( {result:results},`que1234`,{
                 expiresIn: "1h"
             });
+            pool.query(
+              `update registration set token ="${jsontoken}" where email="${body.email}"`,
+              (err,results)=>{
+                if(err){
+                  console.log(err);
+                }
+                console.log("Hi")
+              }
+            )
             return res.json({
                 success: 1,
                 message: "Logged in successfully",
@@ -138,7 +148,7 @@ module.exports = {
              return res.json({
                 success: 0,
                 message:" invalid email or password"
-             })
+             });
         }
     });
   }, 

@@ -11,7 +11,7 @@ const { checkToken } = require("../../auth/token-validation");
 
 // User Routers
 router.post("/", createUser);
-router.get("/", checkToken, getUser);
+router.get("/", getUser);
 router.get("/:id", checkToken, getUserbyUserId);
 router.patch("/", checkToken, updateUser);
 router.delete("/", checkToken, deleteUser);
