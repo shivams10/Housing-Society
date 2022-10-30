@@ -11,7 +11,8 @@ const {
   updateResources,
   createOccupancy,
   getOcuupancy,
-  deleteOccupancy
+  deleteOccupancy,
+  updateOccupancy
 } = require("../user/user.service"); 
 require("dotenv").config();
 const { genSaltSync, hashSync, compareSync } = require("bcrypt");
@@ -273,7 +274,7 @@ module.exports = {
   },
   updateOccupancy: (req,res) => {
     const body = req.body;
-    this.updateOccupancy(bosy,(err,results) => {
+    updateOccupancy(body,(err,results) => {
       if(err){
         console.log(err);
         return;

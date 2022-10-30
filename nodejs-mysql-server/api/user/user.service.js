@@ -195,16 +195,16 @@ module.exports = {
     },
     updateOccupancy: (data,callback) => {
         pool.query(
-            `update occupancy set resourceId= ?, userId= ?, occupancyDate = ? where id = ?`
+            `update occupancy set resourceId=?, userId=?,occupancyDate=? where id =?`
             [
                 data.resourceId,
                 data.userId,
-                data.occupancyDate,
+                data.occupancyDate, 
                 data.id
             ],
             (err,results,fields) => {
                 if(err) {
-                    return callback(error);
+                    return callback(err);
                 }
                 return callback(null,results);
             }
