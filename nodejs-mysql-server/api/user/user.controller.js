@@ -13,7 +13,7 @@ const {
   getOcuupancy,
   deleteOccupancy
 } = require("../user/user.service"); 
-
+require("dotenv").config();
 const { genSaltSync, hashSync, compareSync } = require("bcrypt");
 const { sign } = require("jsonwebtoken");
 const pool = require("../../config/database");
@@ -126,8 +126,8 @@ module.exports = {
         const result = compareSync(body.password,results.password)
         if(result) {
             results.password = undefined; 
-            const jsontoken =sign( {result:results},`que1234`,{
-                expiresIn: "1h"
+            const jsontoken =sign( {result:results},process.env.SEC_KEY,{
+                expiresIn: "1000h"
             });
             pool.query(
               `update registration set token ="${jsontoken}" where email="${body.email}"`,
@@ -222,6 +222,7 @@ module.exports = {
     });
   },
 
+ 
 //   Occupancy
   createOccupancy: (req,res) => {
     const body = req.body;
@@ -270,4 +271,24 @@ module.exports = {
       });
     });
   },
+  updateOccupancy: (req,res) => {
+    const body = req.body;
+    this.updateOccupancy(bosy,(err,results) => {
+      if(err){
+        console.log(err);
+        return;
+      }
+      if(results) {
+        return res.json({
+          success: 0,
+          message: "failed to update data"
+        });
+      }
+      return res.json({
+        success:1,
+        message:"Updated Successfully",
+        data: results
+      });
+    });
+  }
 };

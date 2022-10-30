@@ -192,9 +192,22 @@ module.exports = {
                 return callback(null,results);
             }
         );
-    }
+    },
+    updateOccupancy: (data,callback) => {
+        pool.query(
+            `update occupancy set resourceId= ?, userId= ?, occupancyDate = ? where id = ?`
+            [
+                data.resourceId,
+                data.userId,
+                data.occupancyDate,
+                data.id
+            ],
+            (err,results,fields) => {
+                if(err) {
+                    return callback(error);
+                }
+                return callback(null,results);
+            }
+        );
+    },
  };
-
-//  200 201 202 204
-// 400 401 403 409 404
-// 500

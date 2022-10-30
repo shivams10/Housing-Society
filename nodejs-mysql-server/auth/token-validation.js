@@ -1,3 +1,4 @@
+require("dotenv").config();
 const { verify } = require("jsonwebtoken");
 
 module.exports = {
@@ -5,7 +6,7 @@ module.exports = {
         let token = req.get("authorization");
         if(token){
             token = token.slice(7); 
-            verify(token,`que1234`, (err,decoded) => {
+            verify(token,process.env.SEC_KEY, (err,decoded) => {
                 if(err){
                     res.json({
                         success: 0,
@@ -14,7 +15,7 @@ module.exports = {
                 }
                 else{
                     next(); 
-                }
+                } 
             })
         }else{
             res.json({
