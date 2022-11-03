@@ -1,3 +1,4 @@
+const { checkToken } = require("../../auth/token-validation");
 const { occupancyCheck } = require("../../middleware/occupancyCheck");
 const {
   createOccupancy,
@@ -8,7 +9,7 @@ const {
 const router = require("express").Router();
 
 router.post("/", occupancyCheck, createOccupancy);
-router.get("/", getOcuupancy);
+router.get("/",checkToken,getOcuupancy);
 router.delete("/", deleteOccupancy);
 router.patch("/", updateOccupancy);
 

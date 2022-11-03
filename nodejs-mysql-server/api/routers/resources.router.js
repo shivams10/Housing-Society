@@ -1,3 +1,4 @@
+const { checkToken } = require("../../auth/token-validation");
 const {
   getResources,
   getResourcesById,
@@ -8,7 +9,7 @@ const router = require("express").Router();
 
 // Resource Routers
 router.post("/", createResources);
-router.get("/", getResources);
+router.get("/",checkToken, getResources);
 router.get("/:id", getResourcesById);
 router.patch("/", updateResources);
 
