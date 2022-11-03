@@ -3,7 +3,8 @@ const { verify } = require("jsonwebtoken");
 
 module.exports = {
      checkToken : (req,res,next) => {
-        let token = req.get("authorization");
+        let token = req.get("Authorization");
+        console.log(token);
         if(token){
             token = token.slice(7); 
             verify(token,process.env.SEC_KEY, (err,decoded) => {
@@ -18,9 +19,9 @@ module.exports = {
                 } 
             })
         }else{
-            res.json({
+            res.status(401).json({
                 success: 0,
-                message :"Acceess denied ! Unauthorized user !"
+                message :"Acceess denied ! Unauthorized user !------"
             })
         }
      }

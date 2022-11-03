@@ -12,8 +12,8 @@ const {
   createOccupancy,
   getOcuupancy,
   deleteOccupancy,
-  updateOccupancy
-} = require("../user/user.service"); 
+  updateOccupancy 
+} = require("../services/services"); 
 require("dotenv").config();
 const { genSaltSync, hashSync, compareSync } = require("bcrypt");
 const { sign } = require("jsonwebtoken");
@@ -119,36 +119,40 @@ module.exports = {
             console.log(err); 
         }
         if(!results) {
-            res.json({
+            res.status(401).json({
                 success : 0,
-                message: "Invalid user or password"
+                message: "Invalid email or password"
             });
         };
+        // console.log(results);
         const result = compareSync(body.password,results.password)
         if(result) {
-            results.password = undefined; 
+            delete results.password;
+            delete results.token;
+
             const jsontoken =sign( {result:results},process.env.SEC_KEY,{
                 expiresIn: "1000h"
             });
-            pool.query(
+            pool.query( 
               `update registration set token ="${jsontoken}" where email="${body.email}"`,
               (err,results)=>{
                 if(err){
                   console.log(err);
                 }
-                console.log("Hi")
+                console.log("Hi") 
               }
             )
             return res.json({
                 success: 1,
+                data:results,
                 message: "Logged in successfully",
-                token: jsontoken
+                token: jsontoken,
             });
         }
         else{
-             return res.json({
+             return res.status(401).json({
                 success: 0,
-                message:" invalid email or password"
+                message:"Unauthorized User"
              });
         }
     });
