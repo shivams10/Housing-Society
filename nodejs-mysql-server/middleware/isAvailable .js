@@ -2,7 +2,7 @@ const pool = require("../config/database")
 
 exports.occupancyCheck = (req,res,next) => {
     pool.query(
-        `select isAvailable from occupancy where id = ?`,
+        `select is_available from occupancies where id = ?`,
         (err,results)=> {
             if(err) {
                 return res.status(500).json({

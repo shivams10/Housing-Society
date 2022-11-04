@@ -36,21 +36,21 @@ module.exports = {
       }
       return res.status(200).json({
         success: 1,
-        data: results,
+        data: results, 
       });
     });
   },
   getUserbyUserId: (req, res) => {
     const id = req.params.id;
-    getUserbyUserId(id, (err, results) => {
+    getUserbyUserId(id, (err, results) => { 
       if (err) {
         console.log(err);
         return;
-      }
+      }  
       if (!results) {
         return res.json({
           success: 0,
-          message: "record not found!!",
+          message: "record not found!!", 
         });
       }
       return res.json({
@@ -60,7 +60,7 @@ module.exports = {
     });
   },
   getUser: (req, res) => {
-    getUser((err, results) => {
+    getUser((err, results) => { 
       if (err) {
         console.log(err);
         return;
@@ -119,13 +119,16 @@ module.exports = {
             console.log(err); 
         }
         if(!results) {
-            res.status(401).json({
+            return res.status(401).json({
                 success : 0,
                 message: "Invalid email or password"
             });
         };
-        // console.log(results);
-        const result = compareSync(body.password,results.password)
+        
+
+        const result = compareSync(body.password,results.password);
+        // console.log(body.password);
+        // console.log(results.password)
         if(result) {
             delete results.password;
             delete results.token;
@@ -134,12 +137,11 @@ module.exports = {
                 expiresIn: "1000h"
             });
             pool.query( 
-              `update registration set token ="${jsontoken}" where email="${body.email}"`,
+              `update users set token ="${jsontoken}" where email="${body.email}"`,
               (err,results)=>{
                 if(err){
                   console.log(err);
                 }
-                console.log("Hi") 
               }
             )
             return res.json({
@@ -181,7 +183,7 @@ module.exports = {
             console.log(err);
             return;
         }
-        return res.json({
+        return res.status(200).json({
             success:1,
             data:results
         });
@@ -195,12 +197,12 @@ module.exports = {
             return;
         }
         if(!results){
-            return res.json({
+            return res.status(404).json({
                 success:0,
                 message: "Record not found",
             });
         }
-        return res.json({
+        return res.status(200).json({
             success:1,
             data: results,
         });
@@ -214,12 +216,12 @@ module.exports = {
             return;
         }
         if (!results) {
-            return res.json({
+            return res.status(404).json({
               success: 0,
-              message: "failed to update data",
+              message: "Record not found, failed to update data",
             });
           }
-          return res.json({
+          return res.status(200).json({
             success: 1,
             message: "Updated Successfully",
             data: results,
@@ -251,7 +253,7 @@ module.exports = {
         console.log(err); 
         return;
       }
-      return res.json({
+      return res.status(200).json({
         success: 1,
         data: results
       });
@@ -265,12 +267,12 @@ module.exports = {
         return;
       }
       if (!results) {
-        return res.json({
+        return res.status(404).json({
           success: 0,
           message: "record not found",
         });
       }
-      return res.json({
+      return res.status(200).json({
         success: 1,
         data: results,
       });
@@ -283,8 +285,8 @@ module.exports = {
         console.log(err);
         return;
       }
-      if(results) {
-        return res.json({
+      if(!results) {
+        return res.status(401).json({
           success: 0,
           message: "failed to update data"
         });

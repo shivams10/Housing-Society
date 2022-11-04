@@ -5,9 +5,9 @@ const token =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyZXN1bHQiOnsiZmlyc3RuYW1lIjoiU2FyaXRhIiwibGFzdG5hbWUiOiJTaHVrbGEiLCJjb250YWN0IjoiOTg5ODk4OTg5OCIsImVtYWlsIjoic2FyaXRhQGdtYWlsLmNvbSIsImlzYWRtaW4iOjEsImlkIjozLCJ0b2tlbiI6ImV5SmhiR2NpT2lKSVV6STFOaUlzSW5SNWNDSTZJa3BYVkNKOS5leUp5WlhOMWJIUWlPbnNpWm1seWMzUnVZVzFsSWpvaVUyRnlhWFJoSWl3aWJHRnpkRzVoYldVaU9pSlRhSFZyYkdFaUxDSmpiMjUwWVdOMElqb2lPVGc1T0RrNE9UZzVPQ0lzSW1WdFlXbHNJam9pYzJGeWFYUmhRR2R0WVdsc0xtTnZiU0lzSW1sellXUnRhVzRpT2pFc0ltbGtJam96TENKMGIydGxiaUk2SW1WNVNtaGlSMk5wVDJsS1NWVjZTVEZPYVVselNXNVNOV05EU1RaSmEzQllWa05LT1M1bGVVcDVXbGhPTVdKSVVXbFBibk5wV20xc2VXTXpVblZaVnpGc1NXcHZhVlV5Um5saFdGSm9TV2wzYVdKSFJucGtSelZvWWxkVmFVOXBTbFJoU0ZaeVlrZEZhVXhEU21waU1qVXdXVmRPTUVscWIybFBWR2MxVDBSck5FOVVaelZQUTBselNXMVdkRmxYYkhOSmFtOXBZekpHZVdGWVVtaFJSMlIwV1Zkc2MweHRUblppVTBselNXMXNlbGxYVW5SaFZ6UnBUMnBGYzBsdGJHdEphbTk2VEVOS01HSXlkR3hpYVVrMlltNVdjMkpJTUhOSmJXeG9aRU5KTmsxVVdUSk9la0Y0VDBSRk1FNXBkMmxhV0doM1NXcHZlRTVxWTNkT2FrVTBUVlJSTW1aUkxrMW9TV3RMYUVWNFdubGhjRTVwUVdoM1gyOXJOVmgxUWsxbWRIRkhOVEZyTFMxcVlqbExlREZ0UmpRaWZTd2lhV0YwSWpveE5qWTNNREU0TVRVeExDSmxlSEFpT2pFMk56QTJNVGd4TlRGOS5vVGtVWGpaRWxPLW83Vm5zS2V5TnBPOHNaSlFVWUIwVzBFMzhYaml0anJvIn0sImlhdCI6MTY2NzAxODE1MiwiZXhwIjoxNjcwNjE4MTUyfQ.Pk7Ulb0zgTQkLiIIpfOtQQJIbaOw_W8kfhVLXGc1JPU";
 
 describe("Testing that fetching of all users data is working properly", () => {
-  it("tests /api/user endpoints", async () => {
+  it("tests /api/users endpoints", async () => {
     const response = await request(app)
-      .get("/api/user")
+      .get("/api/users")
       .auth(token, { type: "bearer" });
     expect(response.statusCode).toBe(200);
     expect(typeof response.body == "object").toBe(true);
@@ -27,7 +27,7 @@ describe("Testing that fetching of all users data is working properly", () => {
 });
 
 describe("Testing that single user route is working properly", () => {
-  it("tests /api/user/:id", async () => {
+  it("tests /api/users/:id", async () => {
     const response = await request(app).get("/api/user/2");
     expect(response.statusCode).toBe(200);
     expect(response.body.data).toEqual({
@@ -54,7 +54,7 @@ describe("Testing that fetching of resources data is working properly", () => {
     );
     expect(response.body.data[0]).toEqual({
       id: 1,
-      resourcename: "Hall",
+      resource_name: "Hall",
       status: 1,
     });
   });
@@ -66,7 +66,7 @@ describe("Testing that single resource route is working properly", () => {
     expect(response.statusCode).toBe(200);
     expect(response.body.data).toEqual({
       id: 2,
-      resourcename: "Swimming Pool",
+      resource_name: "Swimming Pool",
       status: 1,
     });
   });

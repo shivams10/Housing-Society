@@ -3,17 +3,17 @@ const pool = require("../../config/database");
 module.exports = {
   create: (data, callback) => {
     pool.query(
-      `insert into registration(firstname,lastname,contact,email,password,isadmin)
+      `insert into users(first_name,last_name,contact,email,password,is_admin)
             values(?,?,?,?,?,?)`,
       [
-        data.firstname,
-        data.lastname,
+        data.first_name,
+        data.last_name,
         data.contact,
         data.email,
         data.password,
-        data.isadmin,
+        data.is_admin,
       ],
-      (error, results, fields) => {
+      (error, results) => {
         if (error) {
           return callback(error);
         }
@@ -23,9 +23,9 @@ module.exports = {
   },
   getUser: (callback) => {
     pool.query(
-      `select id,firstname,lastname,contact,email,password,isadmin from registration`,
+      `select id,first_name,last_name,contact,email,is_admin from users`,
       [],
-      (error, results, fields) => {
+      (error, results) => {
         if (error) {
           return callback(error);
         }
@@ -35,9 +35,9 @@ module.exports = {
   },
   getUserbyUserId: (id, callback) => {
     pool.query(
-      `select id,firstname,lastname,contact,email,password,isadmin from registration where id = ?`,
+      `select id,first_name,last_name,contact,email,password,is_admin from users where id = ?`,
       [id],
-      (errors, results, fields) => {
+      (errors, results) => {
         if (errors) {
           return callback(errors);
         }
@@ -47,17 +47,17 @@ module.exports = {
   },
   updateUser: (data, callback) => {
     pool.query(
-      `update registration set firstname = ?,lastname =? ,contact =? ,email= ?,password = ?,isadmin =? where id = ?`,
+      `update users set first_name = ?,last_name =? ,contact =? ,email= ?,password = ?,is_admin =? where id = ?`,
       [
-        data.firstname,
-        data.lastname,
+        data.first_name,
+        data.last_name,
         data.contact,
         data.email,
         data.password,
-        data.isadmin,
+        data.is_admin,
         data.id,
       ],
-      (error, results, fields) => {
+      (error, results) => {
         if (error) {
           return callback(error);
         }
@@ -67,9 +67,9 @@ module.exports = {
   },
   deleteUser: (data, callback) => {
     pool.query(
-      "delete from registration where id = ?",
+      "delete from users where id = ?",
       [data.id],
-      (error, results, fields) => {
+      (error, results) => {
         if (error) {
           return callback(error);
         }
@@ -81,11 +81,11 @@ module.exports = {
   // Login
   getUserbyUserEmail: (email, callback) => {
     pool.query(
-      `select * from registration where email = ?`,
+      `select * from users where email = ?`,
       [email],
-      (error, results, fields) => {
+      (error, results) => {
         if (error) {
-          callback(error);
+          return callback(error);
         }
         return callback(null, results[0]);
       }
@@ -95,10 +95,10 @@ module.exports = {
   // Resources
   createResources: (data, callback) => {
     pool.query(
-      `insert into resources(resourcename,status)
+      `insert into resources(resource_name,status)
             values(?,?)`,
-      [data.resourcename, data.status],
-      (error, results, fields) => {
+      [data.resource_name, data.status],
+      (error, results) => {
         if (error) {
           return callback(error);
         }
@@ -108,9 +108,9 @@ module.exports = {
   },
   getResources: (callback) => {
     pool.query(
-      `select id,resourcename,status from resources`,
+      `select id,resource_name,status from resources`,
       [],
-      (error, results, fields) => {
+      (error, results) => {
         if (error) {
           return callback(error);
         }
@@ -120,9 +120,9 @@ module.exports = {
   },
   getResourcesById: (id, callback) => {
     pool.query(
-      `select id,resourcename,status from resources where id = ?`,
+      `select id,resource_name,status from resources where id = ?`,
       [id],
-      (errors, results, fields) => {
+      (errors, results) => {
         if (errors) {
           return callback(errors);
         }
@@ -132,9 +132,9 @@ module.exports = {
   },
   updateResources: (data, callback) => {
     pool.query(
-      `update resources set resourcename = ?,status =?  where id = ?`,
-      [data.firstname, data.status, data.id],
-      (error, results, fields) => {
+      `update resources set resource_name = ?,status =?  where id = ?`,
+      [data.resource_name, data.status, data.id],
+      (error, results) => {
         if (error) {
           return callback(error);
         }
@@ -147,11 +147,11 @@ module.exports = {
   createOccupancy: (data, callback) => {
     pool.query(
       `
-            insert into occupancy(occupancyDate,resourceId,userId,isAvailable)
+            insert into occupancies(occupancy_date,resource_id,user_id,is_available)
                 values(?,?,?,false)
             `,
-      [data.occupancyDate, data.resourceId, data.userId],
-      (error, results, fields) => {
+      [data.occupancy_date, data.resource_d, data.user_id],
+      (error, results) => {
         if (error) {
           return callback(error);
         }
@@ -160,7 +160,7 @@ module.exports = {
     );
   },
   getOcuupancy: (callback) => {
-    pool.query(`select * from occupancy`, [], (error, results, fields) => {
+    pool.query(`select * from occupancies`, [], (error, results) => {
       if (error) {
         return callback(error);
       }
@@ -169,9 +169,9 @@ module.exports = {
   },
   deleteOccupancy: (data, callback) => {
     pool.query(
-      `delete from occupancy where id = ?`,
+      `delete from occupancies where id = ?`,
       [data.id],
-      (error, results, fields) => {
+      (error, results) => {
         if (error) return callback(error);
         return callback(null, results);
       }
@@ -179,10 +179,10 @@ module.exports = {
   },
   updateOccupancy: (data, callback) => {
     pool.query(
-      `update occupancy set resourceId=?, userId=?,occupancyDate=? where id =?`[
-        (data.resourceId, data.userId, data.occupancyDate, data.id)
+      `update occupancies set resource_id=?, user_id=?,occupancy_date=? where id =?`[
+        (data.resource_id, data.user_id, data.occupancy_date, data.id)
       ],
-      (err, results, fields) => {
+      (err, results) => {
         if (err) {
           return callback(err);
         }

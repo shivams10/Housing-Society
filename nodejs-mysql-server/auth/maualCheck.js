@@ -8,7 +8,7 @@ module.exports = {
       const decode = Buffer.from(tokenDecodablePart, "base64").toString();
       var tokenData = JSON.parse(decode);
        pool.query(
-        `select token from registration where id =${tokenData.result.id}`,
+        `select token from users where id =${tokenData.result.id}`,
         [],
         (err,results)=>{
             if(err){
@@ -26,7 +26,7 @@ module.exports = {
     }
     )
     } else {
-      res.json({
+      res.status(401).json({
         success: 0,
         message: "Acceess denied ! Unauthorized user !",
       });

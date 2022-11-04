@@ -8,7 +8,7 @@ const {
 } = require("../controller/controller");
 const router = require("express").Router();
 const { checkToken } = require("../../auth/token-validation");
-const { manualCheck } = require("../../auth/maualCheck");
+// const { manualCheck } = require("../../auth/maualCheck");
 
 // User Routers
 router.post("/", createUser);
