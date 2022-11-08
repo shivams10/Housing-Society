@@ -2,10 +2,10 @@
   "name": "nodejs-mysql-server",
   "version": "1.0.0",
   "description": "",
-  "main": "app.js",
+  "main": "index.js",
   
   "scripts": {
-    "start": "nodemon app.js",
+    "start": "nodemon index.js",
     "test": "jest",
     "test:watch": "npm run test -- --watch"
   },
